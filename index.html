@@ -10,15 +10,15 @@
     <style>
         /* (Estilos mantidos iguais) */
         :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --primary-light: #4895ef;
-            --secondary: #f72585;
+            --primary: #3a3a3a;
+            --primary-dark: #1f201f;
+            --primary-light: #ffffffee;
+            --secondary: #047a31;
             --accent: #4cc9f0;
             --dark: #14213d;
             --light: #f8f9fa;
             --gray: #e9ecef;
-            --success: #4caf50;
+            --success: #08f010;
             --error: #f44336;
             --border-radius: 12px;
             --shadow: 0 8px 30px rgba(0,0,0,0.05);
@@ -170,7 +170,7 @@
         }
 
         .btn-secondary:hover {
-            background-color: #e5177e;
+            background-color: #034106;
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(247, 37, 133, 0.2);
         }
@@ -308,8 +308,8 @@
 </head>
 <body>
     <header>
-        <h1 class="logo">GessoCalc</h1>
-        <p class="subtitle">Calculadora inteligente para projetos de gesso acartonado</p>
+        <h1 class="logo">Molduart Orçamento</h1>
+
     </header>
     
     <div class="container">
@@ -324,20 +324,20 @@
                 
                 <div class="form-group">
                     <label for="largura">Largura (metros)</label>
-                    <input type="number" id="largura" step="0.01" min="0.1" placeholder="Ex: 3.50" required>
+                    <input type="number" id="largura" step="0.01" min="0.1" >
                 </div>
                 
                 <div class="form-group">
                     <label for="comprimento">Comprimento (metros)</label>
-                    <input type="number" id="comprimento" step="0.01" min="0.1" placeholder="Ex: 4.20" required>
+                    <input type="number" id="comprimento" step="0.01" min="0.1" >
                 </div>
                 
                 <div class="form-group">
                     <label for="tipoPlaca">Tipo de Placa</label>
                     <select id="tipoPlaca">
-                        <option value="1.2x1.8">Placa Standard (1,2m × 1,8m)</option>
-                        <option value="0.6x2.2">Placa Meia (0,6m × 2,2m)</option>
-                        <option value="1.2x2.4">Placa XL (1,2m × 2,4m)</option>
+                        <option value="0.6x2.2">Placa 60×2</option>
+                        <option value="1.2x1.8">Placa 1,2m×1,8</option>
+                        <option value="1.2x2.4">Placa 1,2m×2,4</option>
                     </select>
                 </div>
                 
