@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
+        /* (Estilos mantidos iguais) */
         :root {
             --primary: #4361ee;
             --primary-dark: #3a56d4;
@@ -484,8 +485,6 @@
                 return;
             }
             
-            // Mostrar loading (opcional - pode implementar)
-            
             // Simular um pequeno delay para melhor UX
             setTimeout(() => {
                 // Calcular área total
@@ -510,11 +509,18 @@
                         break;
                 }
                 
-                // Calcular materiais com margem de segurança
-                const quantidadePlacas = Math.ceil(areaTotal / (placaLargura * placaComprimento) * 1.1); // +10%
+                // Cálculo CORRETO de placas (baseado apenas na área)
+                const areaPlaca = placaLargura * placaComprimento;
+                const quantidadePlacas = Math.ceil(areaTotal / areaPlaca * 1.1); // +10%
+                
+                // Cálculo CORRETO de perfis (60cm + último)
+                const perfisVerticais = Math.ceil(largura / 0.6) + 1;
+                const perfisHorizontais = Math.ceil(comprimento / 0.6) + 1;
+                const perfisTotal = Math.ceil((perfisVerticais + perfisHorizontais) * 1.1); // +10%
+                
+                // Outros materiais
                 const parafusos25mm = Math.ceil(areaTotal * 25 * 1.15); // +15%
                 const parafusos45mm = Math.ceil((areaTotal / 3 * 35) * 1.15); // +15%
-                const perfis = Math.ceil(areaTotal / 6 * 1.1); // +10%
                 const buchas = Math.ceil(parafusos45mm * 1.1); // +10%
                 const perimetro = 2 * (largura + comprimento);
                 const cantoneiras = Math.ceil(perimetro / 3 * 1.1); // +10%
@@ -529,11 +535,12 @@
                     quantidadePlacas: quantidadePlacas,
                     parafusos25mm: parafusos25mm,
                     parafusos45mm: parafusos45mm,
-                    perfis: perfis,
+                    perfis: perfisTotal,
                     buchas: buchas,
                     cantoneiras: cantoneiras,
                     placaDimensoes: `${placaLargura}m × ${placaComprimento}m`,
-                    placaArea: (placaLargura * placaComprimento).toFixed(2)
+                    placaArea: areaPlaca.toFixed(2),
+                    perfisDetalhe: `${perfisVerticais} verticais + ${perfisHorizontais} horizontais`
                 };
                 
                 // Atualizar interface
@@ -549,7 +556,7 @@
                 document.getElementById('empty-state').classList.add('hidden');
                 document.getElementById('resultados-container').classList.remove('hidden');
                 document.getElementById('btn-pdf').disabled = false;
-            }, 300); // Pequeno delay para melhor UX
+            }, 300);
         }
         
         function gerarPDF() {
@@ -608,7 +615,7 @@
                     ['Placas de Gesso', `${orcamento.quantidadePlacas} un`, `Tipo ${orcamento.tipoPlaca}`],
                     ['Parafusos 25mm', `${orcamento.parafusos25mm} un`, 'Fixação das placas'],
                     ['Parafusos 45mm', `${orcamento.parafusos45mm} un`, 'Fixação dos perfis'],
-                    ['Perfis Metálicos', `${orcamento.perfis} un`, 'Estrutura de sustentação'],
+                    ['Perfis Metálicos', `${orcamento.perfis} un`, `Estrutura (${orcamento.perfisDetalhe})`],
                     ['Buchas', `${orcamento.buchas} un`, 'Fixação na alvenaria'],
                     ['Cantoneiras', `${orcamento.cantoneiras} un`, 'Acabamento de cantos']
                 ],
@@ -643,11 +650,11 @@
             doc.setFontSize(9);
             doc.setTextColor(51, 65, 85);
             const obsText = [
-                '- Valores calculados com margem de segurança de 10-15% para perdas',
-                '- Para instalação em tetos, aumentar em 20% a quantidade de parafusos',
-                '- Verificar sempre as especificações técnicas dos materiais',
-                '- Este cálculo é estimativo. Para projetos complexos, consulte um especialista',
-                '- Considere a perda de material durante o corte e ajustes'
+                '- Perfis calculados com espaçamento de 60cm (incluindo o último perfil)',
+                '- Placas calculadas pela área total com margem de 10%',
+                '- Para tetos, aumentar em 20% a quantidade de parafusos',
+                '- Verificar sempre as especificações do fabricante',
+                '- Considere a perda de material durante o corte'
             ];
             
             obsText.forEach((text, index) => {
